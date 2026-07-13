@@ -24,10 +24,9 @@ var removeNodes = function (head) {
     }
 
     head = reverse(head)
-    let dummy = new ListNode(-1)
-    let prev1 = dummy
-    let maxLeft = -Infinity
-    let curr1 = head
+    let prev1 = head
+    let maxLeft = head.val
+    let curr1 = head.next
     while (curr1) {
         if (curr1.val >= maxLeft) {
             maxLeft = curr1.val
@@ -38,7 +37,7 @@ var removeNodes = function (head) {
         curr1 = curr1.next
     }
 
-    let res=reverse(head)
+    let res = reverse(head)
     return res
 
 };
