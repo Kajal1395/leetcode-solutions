@@ -9,17 +9,17 @@ var repairCars = function (ranks, cars) {
     let ans = 0
     while (low <= high) {
         let mid = Math.floor((low + high) / 2)
-        let carsDone = 0
+        let actualCars = 0
         for (let i = 0; i < ranks.length; i++) {
-            carsDone += Math.floor(Math.sqrt(mid / ranks[i]))
+            actualCars += Math.floor(Math.sqrt(mid/ranks[i]))
         }
-        console.log(carsDone, mid)
-        if (carsDone >= cars) {
+        if (actualCars >= cars) {
             ans = mid
             high = mid - 1
         } else {
             low = mid + 1
         }
+
     }
     return ans
 };
