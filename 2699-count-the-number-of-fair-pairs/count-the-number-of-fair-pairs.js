@@ -6,39 +6,37 @@
  */
 var countFairPairs = function (nums, lower, upper) {
     nums.sort((a, b) => a - b)
-    let n = nums.length
-    let ans = 0
-    for (let i = 0; i < n; i++) {
+    let count = 0
+    for (let i = 0; i < nums.length; i++) {
+        let start = lower - nums[i]
+        let end = upper - nums[i]
+        //find j which is >=lower and <=upper
         let low = i + 1
-        let high = n - 1
-        let firstValid = -1
+        let high = nums.length - 1;
+        let leftB = nums.length
         while (low <= high) {
             let mid = Math.floor((low + high) / 2)
-            if (nums[mid] >= lower - nums[i]) {
-                firstValid = mid
+            if (nums[mid] >= start) {
+                leftB = mid
                 high = mid - 1
             } else {
                 low = mid + 1
             }
         }
-        low = i + 1
-        high = n - 1
-        let lastValid = -1
-        while (low <= high) {
-            let mid = Math.floor((low + high) / 2)
-            if (nums[mid] <= upper - nums[i]) {
-                lastValid = mid
-                low = mid + 1
+        let left = i + 1
+        let right = nums.length - 1;
+        let rightB = nums.length
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2)
+            if (nums[mid] > end) {
+                rightB = mid
+                right = mid - 1
             } else {
-                high = mid - 1
+                left = mid + 1
             }
         }
-        console.log(i, firstValid, lastValid)
-        if (firstValid > 0 && lastValid > 0) {
-            ans += lastValid - firstValid + 1
-        }
-
+        count += rightB - leftB
     }
-    return ans
+    return count
 
 };
