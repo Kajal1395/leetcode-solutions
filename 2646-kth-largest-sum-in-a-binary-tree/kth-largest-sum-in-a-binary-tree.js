@@ -12,11 +12,9 @@
  * @return {number}
  */
 var kthLargestLevelSum = function (root, k) {
-
     let queue = []
     let ans = -1
     let resSum = []
-
     queue.push(root)
     while (queue.length) {
         let size = queue.length
@@ -33,6 +31,7 @@ var kthLargestLevelSum = function (root, k) {
         resSum.push(sum)
     }
     resSum.sort((a, b) => b - a)
+    //sort res in des
     if (k <= resSum.length) {
         ans = resSum[k - 1]
     }
