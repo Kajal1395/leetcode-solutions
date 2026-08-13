@@ -17,6 +17,7 @@ var smallestDistancePair = function (nums, k) {
             while (Math.abs(nums[right] - nums[left]) <= mid) {
                 right++
             }
+            //here right is the first invalid index where it stops we want the first valid so -1
             countK += right - left - 1
             left++
         }
