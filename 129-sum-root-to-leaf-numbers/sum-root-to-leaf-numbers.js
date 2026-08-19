@@ -10,27 +10,20 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var sumNumbers = function(root) {
-       function sum(root) {
-            if (!root) return [];
-            if (!root.left && !root.right) return [root.val];
-            let temp = [];
-            let left = sum(root.left);
-            let right = sum(root.right);
-            for (let x of left) {
-                temp.push(`${root.val}` + x);
-            }
-            for (let x of right) {
-                temp.push(`${root.val}` + x);
-            }
-            console.log(temp, "te");
-            return temp;
-        }
-        let res = sum(root);
-        let val = 0;
-        for (let x of res) {
-            val += Number(x);
-        }
-        return val;
-    
+var sumNumbers = function (root) {
+    let res = 0
+    function sum(root, current) {
+        if (!root) return;
+        current = current * 10 + root.val
+        if (!root.left && !root.right) {
+            res += current
+        };
+        sum(root.left, current);
+        sum(root.right, current);
+
+    }
+
+    sum(root, 0)
+    return res;
+
 };
