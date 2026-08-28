@@ -12,30 +12,28 @@
  * @return {boolean}
  */
 var leafSimilar = function (root1, root2) {
-    function nextLeaf(stack) {
-        while (stack.length > 0) {
-            let node = stack.pop()
-            if (node.left === null && node.right === null) {
-                return node.val
+    function collectLeaf(root) {
+        let leaves = []
+        function collect(root) {
+            if (!root) return null
+            if (!root.left && !root.right) {
+                leaves.push(root.val)
             }
-            if (node.right) {
-                stack.push(node.right)
-            }
-            if (node.left) {
-                stack.push(node.left)
-            }
+            collect(root.left)
+            collect(root.right)
         }
+        collect(root)
+        return leaves
 
     }
-    let stack1 = [root1]
-    let stack2 = [root2]
-    while (true) {
-        let leaf1 = nextLeaf(stack1)
-        let leaf2 = nextLeaf(stack2)
-        if (leaf1 === undefined && leaf2 === undefined) return true
-        if (leaf1 === undefined && leaf2 || leaf1 && leaf2 === undefined) return false
-        if (leaf1 !== leaf2) return false
+
+    let stack1 = collectLeaf(root1)
+    let stack2 = collectLeaf(root2)
+    if (stack1.length !== stack2.length) return false
+    for (let i = 0; i < stack1.length; i++) {
+        if (stack1[i] !== stack2[i]) {
+            return false
+        }
     }
-
-
+    return true
 };
