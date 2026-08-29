@@ -11,23 +11,26 @@
  * @return {boolean}
  */
 var evaluateTree = function (root) {
-    let rootmap = {
-        0: false,
-        1: true,
-    }
-    function evalNode(root) {
-        if (!root) return null
+    function evaluate(root) {
+        if (!root) return false
         if (!root.left && !root.right) {
-            return rootmap[root.val]
+            if (root.val === 0) {
+                return false
+            }
+            if (root.val === 1) {
+                return true
+            }
         }
+
+        let left = evaluate(root.left)
+        let right = evaluate(root.right)
         if (root.val === 2) {
-            return evalNode(root.left) || evalNode(root.right)
-        } else if (root.val === 3) {
-            return evalNode(root.left) && evalNode(root.right)
+            return left || right
+        }
+        if (root.val === 3) {
+            return left && right
         }
 
     }
-    return evalNode(root)
-
-
+    return evaluate(root)
 };
