@@ -11,20 +11,21 @@
  * @return {string}
  */
 var tree2str = function (root) {
-    function getStr(root) {
-        if (!root.left && !root.right) {
-            return String(root.val)
-        } else if (!root.left && root.right) {
-            let right = getStr(root.right)
-            return root.val + '()' + '(' + right + ')'
-        } else if (root.left && !root.right) {
-            let left = getStr(root.left)
-            return root.val + '(' + left + ')'
-        } else {
-            let left = getStr(root.left)
-            let right = getStr(root.right)
-            return root.val + '(' + left + ')' + '(' + right + ')'
+
+    function dfs(root) {
+        if (!root) return ''
+        if (!root.left && root.right) {
+            return `${root.val}()(${dfs(root.right)})`
         }
+        if (root.left && !root.right) {
+            return `${root.val}(${dfs(root.left)})`
+
+        }
+        if (root.left && root.right) {
+            return root.val + '(' + dfs(root.left) + ')' + '(' + dfs(root.right) + ')'
+        }
+        return `${root.val}`
     }
-    return getStr(root)
+    return dfs(root)
+
 };
