@@ -17,17 +17,16 @@ var rightSideView = function (root) {
     while (queue.length) {
         let count = 0;
         let size = queue.length;
-        let level = [];
         while (count < size) {
             let node = queue.shift();
+            if (count === size - 1) { res.push(node.val) }
             if (node.left) {
                 queue.push(node.left);
             }
             node.right && queue.push(node.right);
-            level.push(node.val);
             count++;
         }
-        res.push(level[level.length - 1]);
+
     }
     return res;
 };
