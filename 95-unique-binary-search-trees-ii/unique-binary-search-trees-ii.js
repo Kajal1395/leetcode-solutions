@@ -14,6 +14,7 @@ var generateTrees = function (n) {
     let memo = new Map()
     function dfs(start, end) {
         if (start > end) return [null]
+        //if memo has data return that
         let key = `${start}${end}`
         if (memo.has(key)) {
             return memo.get(key)
