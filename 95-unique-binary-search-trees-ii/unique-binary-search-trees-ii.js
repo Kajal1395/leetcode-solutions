@@ -11,9 +11,13 @@
  * @return {TreeNode[]}
  */
 var generateTrees = function (n) {
+    let memo = new Map()
     function dfs(start, end) {
-        
         if (start > end) return [null]
+        let key = `${start}${end}`
+        if (memo.has(key)) {
+            return memo.get(key)
+        }
         let res = []
         for (let root = start; root <= end; root++) {
             let leftSubtree = dfs(start, root - 1)
@@ -26,8 +30,8 @@ var generateTrees = function (n) {
                     res.push(node)
                 }
             }
-
         }
+        memo.set(key, res)
         return res
     }
     return dfs(1, n)
