@@ -11,39 +11,53 @@
  * @return {number}
  */
 var minimumOperations = function (root) {
-    if (!root) return 0
-    if (root && !root.left && !root.right) return 0
-    let minOperation = 0
-    let queue = []
-    queue.push(root)
+    let operations = 0
+    let queue = [root]
     while (queue.length) {
         let size = queue.length
         let level = []
-        let children = 0
-        while (children < size) {
+        let count = 0
+        while (count < size) {
             let node = queue.shift()
-            level.push(node.val)
             if (node.left) {
                 queue.push(node.left)
             }
             if (node.right) {
                 queue.push(node.right)
             }
-            children++
+            level.push(node.val)
+            count++
         }
-        //we have all ele in a level now
         let sorted = [...level].sort((a, b) => a - b)
 
-        let operation = 0
+        // for (let i = 0; i < sorted.length; i++) {
+        //     let j = level.indexOf(sorted[i])
+        //     if (i !== j) {
+        //         [level[i], level[j]] = [level[j], level[i]]
+        //         operations++
+        //     }
+
+        // }
+
+        let map = new Map()
         for (let i = 0; i < sorted.length; i++) {
-            let j = level.indexOf(sorted[i])
-            if (i !== j) {
-                [level[i], level[j]] = [level[j], level[i]]
-                operation++
-            }
+            map.set(sorted[i], i)
         }
-        minOperation += operation
+
+        let visited = Array.from(level).fill(false)
+        for (let i = 0; i < level.length; i++) {
+            if (visited[i]) continue
+            let j = i
+            let cyclesize = 0
+            while (!visited[j]) {
+                visited[j] = true
+                j = map.get(level[j])
+                cyclesize++
+            }
+            operations += cyclesize - 1
+        }
+
     }
-    return minOperation
+    return operations
 
 };
