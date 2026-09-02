@@ -11,32 +11,55 @@
  * @return {TreeNode}
  */
 var replaceValueInTree = function (root) {
-    if (!root) return null
     let queue = []
     queue.push(root)
+    root.val = 0
     while (queue.length) {
-        let children = []
-        for (let node of queue) {
-            if (node.left) children.push(node.left)
-            if (node.right) children.push(node.right)
-        }
-        let levelSum = children.reduce((acc, num) => acc + num.val, 0)
+        let size = queue.length
+        let children = 0
+        let nextLevelSum = 0
+        let levelSum = 0
 
-        for (let node of queue) {
-            let siblingSum = 0
-            if (node.left) siblingSum += node.left.val
-            if (node.right) siblingSum += node.right.val
+        for (let i = 0; i < size; i++) {
+            let node = queue[i]
+
             if (node.left) {
-                node.left.val = levelSum - siblingSum
+                levelSum += node.left.val
+            }
+
+            if (node.right) {
+                levelSum += node.right.val
+            }
+        }
+
+        while (children < size) {
+            let node = queue.shift()
+            children++
+            let siblingSum = 0
+            if (node.left) {
+
+                siblingSum += node.left.val
+                nextLevelSum += node.left.val
             }
             if (node.right) {
-                node.right.val = levelSum - siblingSum
-            }
-        }
 
-        queue = children
+                siblingSum += node.right.val
+                nextLevelSum += node.right.val
+            }
+            if (node.left) {
+                node.left.val = levelSum - siblingSum
+                queue.push(node.left)
+            }
+
+            if (node.right) {
+                node.right.val = levelSum - siblingSum
+                queue.push(node.right)
+            }
+
+        }
+        levelSum = nextLevelSum
+
     }
-    root.val=0
     return root
 
 };
