@@ -17,12 +17,10 @@ var replaceValueInTree = function (root) {
     while (queue.length) {
         let size = queue.length
         let children = 0
-        let nextLevelSum = 0
         let levelSum = 0
 
         for (let i = 0; i < size; i++) {
             let node = queue[i]
-
             if (node.left) {
                 levelSum += node.left.val
             }
@@ -37,14 +35,10 @@ var replaceValueInTree = function (root) {
             children++
             let siblingSum = 0
             if (node.left) {
-
                 siblingSum += node.left.val
-                nextLevelSum += node.left.val
             }
             if (node.right) {
-
                 siblingSum += node.right.val
-                nextLevelSum += node.right.val
             }
             if (node.left) {
                 node.left.val = levelSum - siblingSum
@@ -57,8 +51,6 @@ var replaceValueInTree = function (root) {
             }
 
         }
-        levelSum = nextLevelSum
-
     }
     return root
 
