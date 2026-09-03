@@ -12,36 +12,35 @@
  */
 var isSymmetric = function (root) {
     let queue = [root]
-    if (!root) return null
     while (queue.length) {
         let size = queue.length
-        let children = []
+        let level = []
         let count = 0
         while (count < size) {
             let node = queue.shift()
-            if (node) {
-                children.push(node.val)
-                queue.push(node.left)
-                queue.push(node.right)
+            if (!node) {
+                level.push(null)
+                count++
+                continue
             }
-            else {
-                children.push(null)
-            }
+
+            queue.push(node.left)
+            queue.push(node.right)
+
+            level.push(node.val)
+
             count++
         }
+        console.log(level, queue)
         let low = 0
-        let high = children.length - 1
+        let high = level.length - 1
         while (low < high) {
-            if (children[low] !== children[high]) {
+            if (level[low] !== level[high]) {
                 return false
-            } else {
-                low++
-                high--
             }
+            low++
+            high--
         }
-
     }
     return true
-
-
 };
