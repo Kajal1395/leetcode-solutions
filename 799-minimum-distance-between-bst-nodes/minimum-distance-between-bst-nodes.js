@@ -11,18 +11,19 @@
  * @return {number}
  */
 var minDiffInBST = function (root) {
-    let minDiff = Infinity
-    let prev = null
-    function inOrder(root) {
-        if (!root) return
-        inOrder(root.left)
-        if (prev !== null) {
-            minDiff = Math.min(root.val - prev, minDiff)
-        }
-        prev = root.val
-        inOrder(root.right)
-
+    //property of bst prev node smaller if we follow dfs left node right
+    let res = []
+    function dfs(root) {
+        root.left && dfs(root.left)
+        res.push(root.val)
+        root.right && dfs(root.right)
     }
-    inOrder(root)
-    return minDiff
+    dfs(root)
+    let min = Infinity
+    for (let i = 1; i < res.length; i++) {
+        min = Math.min(min, Math.abs(res[i] - res[i - 1]))
+    }
+    console.log(min)
+    return min
+
 };
