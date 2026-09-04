@@ -11,20 +11,22 @@
  * @return {TreeNode[]}
  */
 var findDuplicateSubtrees = function (root) {
+    let map = new Map()
     let res = []
-    let strmap = new Map()
-    function collect(root) {
+    function dfs(root) {
         if (!root) return '#'
-        let left = collect(root.left)
-        let right = collect(root.right)
-        let str = `${root.val}+${left}+${right}`
-        strmap.set(str, (strmap.get(str) || 0) + 1)
-        if (strmap.get(str) === 2) {
+        let left = dfs(root.left)
+        let right = dfs(root.right)
+        let str = `${root.val}|${left}|${right}`
+        map.set(str, (map.get(str) || 0) + 1)
+        if (map.get(str) === 2) {
             res.push(root)
         }
+      
         return str
+
     }
-    collect(root)
+    dfs(root)
     return res
 
 };
