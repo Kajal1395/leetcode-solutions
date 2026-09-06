@@ -6,24 +6,25 @@
  * @return {number}
  */
 var numOfMinutes = function (n, headID, manager, informTime) {
-    let employeeMap = new Map()
+    let map = new Map()
     for (let i = 0; i < n; i++) {
-        if (!employeeMap.has(manager[i])) {
-            employeeMap.set(manager[i], [])
+        map.set(i, [])
+    }
+    for (let i = 0; i < n; i++) {
+        if (manager[i] !== -1) {
+            map.get(manager[i]).push(i)
         }
-        employeeMap.get(manager[i]).push(i)
     }
     function dfs(manager) {
-        let maxTime = 0
-        let employeeSub = employeeMap.get(manager) || []
-  
-        if (employeeSub.length < 1) return 0
-        for (let sub of employeeSub) {
-            let res = dfs(sub)
-            maxTime = Math.max(res, maxTime)
+        if (!map.get(manager)) return 0
+        let maxVal = 0
+        for (let employee of map.get(manager)) {
+            maxVal = Math.max(dfs(employee), maxVal)
+
         }
-        return informTime[manager] + maxTime
+        return informTime[manager] + maxVal
     }
     return dfs(headID)
+    // return 1
 
 };
