@@ -12,18 +12,16 @@
  */
 var sumNumbers = function (root) {
     let res = 0
-    function sum(root, current) {
-        if (!root) return;
-        current = current * 10 + root.val
-        if (!root.left && !root.right) {
-            res += current
-        };
-        sum(root.left, current);
-        sum(root.right, current);
-
+    function dfs(node, currentSum) {
+        if (!node) return
+        if (!node.left && !node.right) {
+            res += currentSum * 10 + node.val
+            return
+        }
+        currentSum = currentSum * 10 + node.val
+        dfs(node.left, currentSum)
+        dfs(node.right, currentSum)
     }
-
-    sum(root, 0)
-    return res;
-
+    dfs(root, 0)
+    return res
 };
