@@ -12,27 +12,26 @@
  * @return {number}
  */
 var countPairs = function (root, distance) {
-    let goodpairs = 0
-    function countgoodleaf(root) {
-        if (!root) return []
-        if (!root.left && !root.right) return [1]
-        let left = countgoodleaf(root.left)
-        let right = countgoodleaf(root.right)
-        let res = []
-        for (let i = 0; i < left.length; i++) {
-            for (let j = 0; j < right.length; j++) {
-
-                if (left[i] + right[j] <= distance) {
-                    goodpairs++
+    let count = 0
+    function dfs(node) {
+        if (!node) return []
+        if (!node.left && !node.right) {
+            return [1]
+        }
+        let leftSub = dfs(node.left)
+        let rightSub = dfs(node.right)
+        if (leftSub.length && rightSub.length) {
+            for (let left of leftSub) {
+                for (let right of rightSub) {
+                    if (left + right <= distance) {
+                        count++
+                    }
                 }
             }
         }
-        for (let d of left) res.push(d + 1)
-        for (let d of right) res.push(d + 1)
-        return res
-
+        return [...leftSub.map(d => d + 1), ...rightSub.map(d => d + 1)]
     }
-    countgoodleaf(root)
-    return goodpairs
+    dfs(root)
+    return count
 
 };
