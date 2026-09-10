@@ -11,26 +11,30 @@
  * @return {TreeNode[]}
  */
 var allPossibleFBT = function (n) {
-    function FBT(n) {
+
+    function dfs(n) {
+        if (n % 2 === 0) return []
         if (n === 1) return [new TreeNode(0)]
-        let result = []
-        for (let leftSize = 1; leftSize < n; leftSize += 2) {
-            let rightSize = n - 1 - leftSize
-            let leftSub = FBT(leftSize)
-            let rightSub = FBT(rightSize)
-            for (let leftTree of leftSub) {
-                for (let rightTree of rightSub) {
+        let res = []
+        let remainingNodes = n - 1
+
+        for (let leftSize = 1; leftSize < remainingNodes; leftSize += 2) {
+            let rightSize = remainingNodes - leftSize
+            let leftSubtree = dfs(leftSize)
+            let rightSubtree = dfs(rightSize)
+            for (let left of leftSubtree) {
+                for (let right of rightSubtree) {
                     let root = new TreeNode(0)
-
-                    root.left = leftTree
-                    root.right = rightTree
-
-                    result.push(root)
+                    root.left = left
+                    root.right = right
+                    res.push(root)
                 }
+
             }
         }
-        return result
+        return res
     }
+    return dfs(n)
 
-    return FBT(n)
+
 };
