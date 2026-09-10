@@ -11,16 +11,17 @@
  * @return {number}
  */
 var findBottomLeftValue = function (root) {
+    if (!root) return null
     let queue = [root]
-    let ans = root.val
+    let ans;
     while (queue.length) {
         let size = queue.length
         ans = queue[0].val
         let count = 0
         while (count < size) {
             let node = queue.shift()
-            if (node.left) queue.push(node.left)
-            if (node.right) queue.push(node.right)
+            node.left && queue.push(node.left)
+            node.right && queue.push(node.right)
             count++
         }
     }
