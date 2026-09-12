@@ -15,7 +15,7 @@ var pseudoPalindromicPaths = function (root) {
     let oddCount = 0
     let res = 0
     function dfs(root) {
-        if (!root) return false
+        if (!root) return
         freq[root.val]++
         if (freq[root.val] % 2 !== 0) {
             oddCount++
