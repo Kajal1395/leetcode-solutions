@@ -11,53 +11,31 @@
  * @return {boolean}
  */
 var isEvenOddTree = function (root) {
+    let levelnum = 0
     let queue = [root]
-    let evenOdd = true
-    let level = 0
     while (queue.length) {
         let size = queue.length
+        let prev = levelnum % 2 !== 0 ? Infinity : -Infinity
         let count = 0
-
-        let children = []
         while (count < size) {
             let node = queue.shift()
-            children.push(node.val)
-            if (node.left) {
-                queue.push(node.left)
+            if (levelnum % 2 !== 0) {
+                if (node.val >= prev || node.val % 2 !== 0) {
+                    return false
+                }
             }
-            if (node.right) {
-                queue.push(node.right)
+            if (levelnum % 2 === 0) {
+                if (node.val <= prev || node.val % 2 === 0) {
+                    return false
+                }
             }
+            node.left && queue.push(node.left)
+            node.right && queue.push(node.right)
+            prev = node.val
             count++
         }
-        //now we have all children of level
-        if (level % 2 === 0) {
-            for (let i = 0; i < children.length; i++) {
-                if (children[i] % 2 === 0) {
-                    evenOdd = false
-                    break
-                }
-                if (i > 0 && children[i] <= children[i - 1]) {
-                    evenOdd = false
-                    break
-                }
-            }
-        } else {
-            for (let i = 0; i < children.length; i++) {
-                if (children[i] % 2 !== 0) {
-                    evenOdd = false
-                    break
-                }
-                if (i > 0 && children[i] >= children[i - 1]) {
-                    evenOdd = false
-                    break
-                }
-            }
-
-        }
-
-        level++
+        levelnum++
     }
-    return evenOdd
+    return true
 
 };
