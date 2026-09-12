@@ -11,33 +11,41 @@
  * @return {number}
  */
 var pseudoPalindromicPaths = function (root) {
-    let temp = []
+    let freq = new Array(10).fill(0)
     let oddCount = 0
-    let freq = new Array(10).fill(0);
-
-    function traverse(root) {
-        if (!root) return;
-        temp.push(root.val)
-        freq[root.val]++;
+    let res = 0
+    function dfs(root) {
+        if (!root) return false
+        freq[root.val]++
+        if (freq[root.val] % 2 !== 0) {
+            oddCount++
+        } else {
+            oddCount--
+        }
         if (!root.left && !root.right) {
-
-            let count = 0
-            for (let i = 0; i <= 9; i++) {
-                if (freq[i] % 2 !== 0) {
-                    count++
-                }
+            if (oddCount <= 1) {
+                res++
             }
-            if (count <= 1) {
+            freq[root.val]--
+            if (freq[root.val] % 2 !== 0) {
                 oddCount++
+            } else {
+                oddCount--
             }
+            return
         }
 
-        traverse(root.left)
-        traverse(root.right)
+        dfs(root.left)
+        dfs(root.right)
         freq[root.val]--
-        temp.pop()
+        if (freq[root.val] % 2 !== 0) {
+            oddCount++
+        } else {
+            oddCount--
+        }
+
     }
-    traverse(root)
-    return oddCount
+    dfs(root)
+    return res
 
 };
