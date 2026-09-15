@@ -12,20 +12,24 @@
  * @return {TreeNode[]}
  */
 var delNodes = function (root, to_delete) {
-    let delSet = new Set(to_delete)
     let res = []
-    function forest(root) {
-        if (!root) return null
-        root.left = forest(root.left)
-        root.right = forest(root.right)
-        if (delSet.has(root.val)) {
-            if (root.left) res.push(root.left)
-            if (root.right) res.push(root.right)
+    let set = new Set(to_delete)
+    function dfs(root) {
+        if(!root) return null
+        root.left = dfs(root.left)
+        root.right = dfs(root.right)
+        if (set.has(root.val)) {
+            root.left && res.push(root.left)
+            root.right && res.push(root.right)
             return null
         }
         return root
     }
-    let tree = forest(root)
-    if (tree) res.push(tree)
+    let remaining = dfs(root)
+    if (remaining) {
+        res.push(remaining)
+    }
     return res
+
+
 };
