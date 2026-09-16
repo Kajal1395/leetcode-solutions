@@ -12,15 +12,14 @@
  */
 var distributeCoins = function (root) {
     let moves = 0
-    function movesFn(root) {
+    function dfs(root) {
         if (!root) return 0
-        let left = movesFn(root.left)
-        let right = movesFn(root.right)
-        moves += Math.abs(left)
-        moves += Math.abs(right)
+        let left = dfs(root.left)
+        let right = dfs(root.right)
+        moves += Math.abs(left) + Math.abs(right)
         return left + right + root.val - 1
     }
-    movesFn(root)
+    dfs(root)
     return moves
 
 };
