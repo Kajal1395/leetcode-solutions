@@ -13,39 +13,33 @@
  * @return {string}
  */
 var getDirections = function (root, startValue, destValue) {
-    function findTarget(root, target, path) {
-        if (!root) return false
-        if (root.val === target) return true
-        path.push('L')
-        let left = findTarget(root.left, target, path)
-        if (left) {
-            return true
+
+    function dfs(root, target) {
+        if (!root) return null
+        if (root.val === target) return ""
+        let left = dfs(root.left, target)
+        if (left !== null) {
+            return "L" + left
         }
-        path.pop()
-        path.push('R')
-        let right = findTarget(root.right, target, path)
-        if (right) {
-            return true
+        let right = dfs(root.right, target)
+        if (right !== null) {
+            return "R" + right
         }
-        path.pop()
-        return false
+        return null
     }
-    let roottoStart = []
-    findTarget(root, startValue, roottoStart)
-    let roottoDest = []
-    findTarget(root, destValue, roottoDest)
+    let startnode = dfs(root, startValue)
+    let endnode = dfs(root, destValue)
     let ind = 0
-    while (roottoStart[ind] === roottoDest[ind]) {
+    while (startnode[ind] === endnode[ind]) {
         ind++
     }
-    let ans;
-    let ups = 'U'.repeat(roottoStart.length - ind)
-    let dest = roottoDest.slice(ind)
-    if (ind === roottoStart.length) {
-        ans = dest.join('')
-    }
-
-    ans = ups + dest.join('')
+    let ans = ''
+    let ups = 'U'.repeat(startnode.length - ind)
+    let dest = endnode.slice(ind)
+    // if (ind < startnode.length &&
+    //     ind < endnode.length && ups === startnode.length) {
+    //     ans = dest.join('')
+    // }
+    ans = ups + dest
     return ans
-
 };
