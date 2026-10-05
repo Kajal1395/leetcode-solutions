@@ -11,21 +11,14 @@
  * @return {boolean}
  */
 var isValidBST = function (root) {
-    let res = []
-    function dfs(root) {
-        if (!root) return
 
-        dfs(root.left)
-        res.push(root.val)
-        dfs(root.right)
+    function dfs(root, lower, upper) {
+        if (!root) return true
+        if (root.val <= lower || root.val >= upper) return false
+        let left = dfs(root.left, lower, root.val)
+        let right = dfs(root.right, root.val, upper)
+        return left && right
     }
-    dfs(root)
-    console.log(res)
-    for(let i=1;i<res.length;i++){
-        if(res[i]<=res[i-1]){
-            return false
-        }
-    }
-    return true
+    return dfs(root, -Infinity, Infinity)
 
 };
