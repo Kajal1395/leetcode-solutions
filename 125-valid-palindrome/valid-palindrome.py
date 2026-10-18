@@ -1,7 +1,11 @@
 import re
 
+
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        s = re.sub(r"[^a-zA-Z0-9]", "", s).lower()
-        print(s)
-        return s == s[::-1]
+        cleaned = ""
+        for i in range(len(s)):
+            if s[i].isalnum():
+                cleaned += s[i].lower()
+        print(cleaned, "clean")
+        return cleaned == cleaned[::-1]
