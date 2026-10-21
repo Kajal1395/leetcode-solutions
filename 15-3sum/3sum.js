@@ -3,19 +3,28 @@
  * @return {number[][]}
  */
 var threeSum = function (nums) {
-    let res = []
     nums.sort((a, b) => a - b)
+    let res = []
     for (let i = 0; i < nums.length; i++) {
         if (i > 0 && nums[i] === nums[i - 1]) continue
-        let map = new Map()
-        for (let j = i + 1; j < nums.length; j++) {
-            let needed = 0 - (nums[i] + nums[j])
-            if (map.has(needed)) {
-                res.push([nums[i], needed, nums[j]])
-                while (j + 1 < nums.length && nums[j] === nums[j + 1]) j++
+        let start = i + 1
+        let end = nums.length - 1
+        let target = -nums[i]
+        while (start < end) {
+            let sum = nums[start] + nums[end]
+            if (sum === target) {
+                res.push([nums[i], nums[start], nums[end]])
+                end--
+                start++
+                while (start < end && nums[start] === nums[start - 1]) start++
+                while (start < end && nums[end] === nums[end + 1]) end--
+
+            } else if (sum < target) {
+                start++
+            } else {
+                end--
             }
-            map.set(nums[j], true)
         }
-    }
+    };
     return res
-};
+}
